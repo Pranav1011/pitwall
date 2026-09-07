@@ -58,22 +58,29 @@ degradation is estimated:
 The MixedLM **converged on the full dataset and on all cross-validation folds**; the
 documented fallback (OLS with driver fixed effects) was not needed.
 
-**Baseline** (the comparison number): per-compound OLS of lap time on `tyre_life`, with no
-circuit, fuel, or quadratic term.
+**Baseline** (the honest comparison): a **per-(circuit, compound) OLS** of lap time on
+`tyre_life`. This baseline already knows which circuit it is at and gets a compound-specific
+linear degradation slope, so beating it isolates exactly what the full model adds — fuel
+correction, nonlinear wear, driver effects, and partial pooling — rather than the trivial
+"which track is this."
 
 **Validation:** leave-one-race-out over the 21 circuits with cross-season data (the
 held-out race is never in training). Error is mean absolute lap-time error in seconds.
 
-| | Model (MixedLM) | Baseline (per-compound OLS) |
+| | Model (MixedLM) | Fair baseline (per-circuit × compound OLS) |
 | --- | --- | --- |
-| **CV MAE (s/lap)** | **1.31** | 9.06 |
-| SOFT | 1.91 | 9.28 |
-| MEDIUM | 1.35 | 8.99 |
-| HARD | 1.14 | 9.06 |
+| **CV MAE (s/lap)** | **1.31** | 1.71 |
+| SOFT | 1.91 | 2.48 |
+| MEDIUM | 1.35 | 1.68 |
+| HARD | 1.14 | 1.55 |
 
-**The model cuts out-of-sample lap-time error by 85.5% vs the baseline** (1.31 vs 9.06
-s/lap), evaluated on 55 held-out races. It is weakest on SOFT (1.91 s/lap) — softs run
-short, aggressive stints and are the most variable compound.
+**The model is 23.4% better than a baseline that already knows the circuit** (1.31 vs 1.71
+s/lap out-of-sample), and wins on every compound. It is weakest on SOFT (1.91 s/lap) — softs
+run short, aggressive stints and are the most variable compound.
+
+> A naive per-compound OLS with *no* circuit term scores 9.06 s/lap, but that number mostly
+> measures the baseline not knowing whether it's at Monaco or Spa — so it is reported only as
+> a reference, not as the model's improvement.
 
 ![degradation](figures/degradation_by_compound.png)
 ![predicted vs actual](figures/predicted_vs_actual.png)

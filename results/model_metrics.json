@@ -63,14 +63,22 @@
     "MixedLM"
   ],
   "model_cv_mae_s": 1.3124,
-  "baseline_cv_mae_s": 9.0603,
-  "improvement_pct": 85.5,
+  "fair_baseline_cv_mae_s": 1.714,
+  "fair_baseline_desc": "per-(circuit,compound) OLS of lap time on tyre_life",
+  "improvement_vs_fair_pct": 23.4,
+  "naive_baseline_cv_mae_s": 9.0603,
+  "naive_baseline_desc": "per-compound OLS, no circuit (reference only)",
   "model_mae_by_compound": {
     "SOFT": 1.9102,
     "MEDIUM": 1.3504,
     "HARD": 1.1405
   },
-  "baseline_mae_by_compound": {
+  "fair_baseline_mae_by_compound": {
+    "SOFT": 2.4785,
+    "MEDIUM": 1.681,
+    "HARD": 1.5518
+  },
+  "naive_baseline_mae_by_compound": {
     "SOFT": 9.279,
     "MEDIUM": 8.9908,
     "HARD": 9.0564

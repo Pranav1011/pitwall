@@ -66,6 +66,42 @@ def predict_baseline(model: dict, test: pd.DataFrame) -> np.ndarray:
     return out
 
 
+# ---------- fair baseline: per-(circuit, compound) OLS of lap time on tyre_life ----------
+
+def fit_fair_baseline(train: pd.DataFrame) -> dict:
+    """A baseline that already knows the circuit: one OLS (lap time ~ tyre_life) per
+    (circuit, compound). Improvement over this isolates fuel/nonlinearity/driver/pooling,
+    not the trivial 'which track is this'."""
+    cc: dict = {}
+    for (circ, comp), sub in train.groupby(["circuit", "compound"]):
+        if len(sub) < 5:
+            continue
+        try:
+            X = sm.add_constant(sub["tyre_life"].to_numpy())
+            res = sm.OLS(sub["LapTime"].to_numpy(), X).fit()
+            b1 = float(res.params[1]) if len(res.params) > 1 else 0.0
+            cc[(circ, comp)] = (float(res.params[0]), b1)
+        except Exception:
+            continue
+    circ_mean = train.groupby("circuit")["LapTime"].mean().to_dict()
+    return {"cc": cc, "circ_mean": circ_mean, "global": float(train["LapTime"].mean())}
+
+
+def predict_fair_baseline(model: dict, test: pd.DataFrame) -> np.ndarray:
+    circ = test["circuit"].to_numpy()
+    comp = test["compound"].to_numpy()
+    tl = test["tyre_life"].to_numpy()
+    out = np.empty(len(test))
+    for i in range(len(test)):
+        key = (circ[i], comp[i])
+        if key in model["cc"]:
+            b0, b1 = model["cc"][key]
+            out[i] = b0 + b1 * tl[i]
+        else:  # circuit-aware fallback keeps the comparison fair
+            out[i] = model["circ_mean"].get(circ[i], model["global"])
+    return out
+
+
 # ---------- main model: circuit-centered MixedLM (OLS fallback) ----------
 
 _FE_COMPOUNDS = DRY_COMPOUNDS  # slope columns, one per compound

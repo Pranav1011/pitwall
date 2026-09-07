@@ -11,7 +11,15 @@ import numpy as np
 import pandas as pd
 
 from pitwall.config import CLEAN_PARQUET, DRY_COMPOUNDS, RESULTS_DIR
-from pitwall.model import fit_baseline, fit_main, predict_baseline, predict_main, prepare
+from pitwall.model import (
+    fit_baseline,
+    fit_fair_baseline,
+    fit_main,
+    predict_baseline,
+    predict_fair_baseline,
+    predict_main,
+    prepare,
+)
 
 
 def mae(a: np.ndarray, b: np.ndarray) -> float:
@@ -42,28 +50,33 @@ def main() -> None:
     print(f"{len(df)} laps, {n_races} races; LORO over {len(eligible)} races "
           f"at {len(repeat_circuits)} cross-season circuits")
 
-    y_true, y_model, y_base, comps = [], [], [], []
+    y_true, y_model, y_base, y_fair, comps = [], [], [], [], []
     methods = []
     for r in eligible:
         train = df[df.race_id != r]
         test = df[df.race_id == r]
         bmodel = fit_baseline(train)
+        fmodel = fit_fair_baseline(train)
         mmodel = fit_main(train)
         methods.append(mmodel.method)
         y_true.append(test["LapTime"].to_numpy())
         y_base.append(predict_baseline(bmodel, test))
+        y_fair.append(predict_fair_baseline(fmodel, test))
         y_model.append(predict_main(mmodel, test))
         comps.append(test["compound"].to_numpy())
 
     y_true = np.concatenate(y_true)
     y_model = np.concatenate(y_model)
     y_base = np.concatenate(y_base)
+    y_fair = np.concatenate(y_fair)
     comps = np.concatenate(comps)
 
     model_mae = mae(y_true, y_model)
     base_mae = mae(y_true, y_base)
+    fair_mae = mae(y_true, y_fair)
     pc_model = per_compound_mae(comps, y_true - y_model)
     pc_base = per_compound_mae(comps, y_true - y_base)
+    pc_fair = per_compound_mae(comps, y_true - y_fair)
     worst = max(pc_model, key=pc_model.get)
 
     # final fit on all data for figures / coefficients
@@ -79,10 +92,14 @@ def main() -> None:
         "model_converged": full.converged,
         "fold_methods": methods,
         "model_cv_mae_s": round(model_mae, 4),
-        "baseline_cv_mae_s": round(base_mae, 4),
-        "improvement_pct": round(100 * (base_mae - model_mae) / base_mae, 1),
+        "fair_baseline_cv_mae_s": round(fair_mae, 4),
+        "fair_baseline_desc": "per-(circuit,compound) OLS of lap time on tyre_life",
+        "improvement_vs_fair_pct": round(100 * (fair_mae - model_mae) / fair_mae, 1),
+        "naive_baseline_cv_mae_s": round(base_mae, 4),
+        "naive_baseline_desc": "per-compound OLS, no circuit (reference only)",
         "model_mae_by_compound": pc_model,
-        "baseline_mae_by_compound": pc_base,
+        "fair_baseline_mae_by_compound": pc_fair,
+        "naive_baseline_mae_by_compound": pc_base,
         "model_worst_compound": worst,
     }
     RESULTS_DIR.mkdir(exist_ok=True)
