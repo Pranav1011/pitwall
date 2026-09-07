@@ -1,0 +1,12 @@
+{
+  "seasons": [
+    2022,
+    2023,
+    2024
+  ],
+  "n_seasons": 3,
+  "races": 68,
+  "raw_laps": 74601,
+  "valid_laps": 53854,
+  "stints": 2824
+}

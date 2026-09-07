@@ -1,0 +1,546 @@
+[
+  {
+    "season": 2022,
+    "round": 1,
+    "race": "Bahrain Grand Prix",
+    "status": "ok",
+    "laps": 1125,
+    "secs": 8.2
+  },
+  {
+    "season": 2022,
+    "round": 2,
+    "race": "Saudi Arabian Grand Prix",
+    "status": "ok",
+    "laps": 820,
+    "secs": 6.8
+  },
+  {
+    "season": 2022,
+    "round": 3,
+    "race": "Australian Grand Prix",
+    "status": "ok",
+    "laps": 1045,
+    "secs": 6.7
+  },
+  {
+    "season": 2022,
+    "round": 4,
+    "race": "Emilia Romagna Grand Prix",
+    "status": "ok",
+    "laps": 1132,
+    "secs": 7.0
+  },
+  {
+    "season": 2022,
+    "round": 5,
+    "race": "Miami Grand Prix",
+    "status": "ok",
+    "laps": 1057,
+    "secs": 6.6
+  },
+  {
+    "season": 2022,
+    "round": 6,
+    "race": "Spanish Grand Prix",
+    "status": "ok",
+    "laps": 1230,
+    "secs": 6.7
+  },
+  {
+    "season": 2022,
+    "round": 7,
+    "race": "Monaco Grand Prix",
+    "status": "ok",
+    "laps": 1179,
+    "secs": 7.2
+  },
+  {
+    "season": 2022,
+    "round": 8,
+    "race": "Azerbaijan Grand Prix",
+    "status": "ok",
+    "laps": 891,
+    "secs": 6.4
+  },
+  {
+    "season": 2022,
+    "round": 9,
+    "race": "Canadian Grand Prix",
+    "status": "ok",
+    "laps": 1264,
+    "secs": 6.7
+  },
+  {
+    "season": 2022,
+    "round": 10,
+    "race": "British Grand Prix",
+    "status": "ok",
+    "laps": 815,
+    "secs": 6.2
+  },
+  {
+    "season": 2022,
+    "round": 11,
+    "race": "Austrian Grand Prix",
+    "status": "ok",
+    "laps": 1324,
+    "secs": 6.9
+  },
+  {
+    "season": 2022,
+    "round": 12,
+    "race": "French Grand Prix",
+    "status": "ok",
+    "laps": 958,
+    "secs": 6.4
+  },
+  {
+    "season": 2022,
+    "round": 13,
+    "race": "Hungarian Grand Prix",
+    "status": "ok",
+    "laps": 1383,
+    "secs": 6.9
+  },
+  {
+    "season": 2022,
+    "round": 14,
+    "race": "Belgian Grand Prix",
+    "status": "ok",
+    "laps": 792,
+    "secs": 6.5
+  },
+  {
+    "season": 2022,
+    "round": 15,
+    "race": "Dutch Grand Prix",
+    "status": "ok",
+    "laps": 1392,
+    "secs": 7.1
+  },
+  {
+    "season": 2022,
+    "round": 16,
+    "race": "Italian Grand Prix",
+    "status": "ok",
+    "laps": 971,
+    "secs": 6.5
+  },
+  {
+    "season": 2022,
+    "round": 17,
+    "race": "Singapore Grand Prix",
+    "status": "ok",
+    "laps": 945,
+    "secs": 6.8
+  },
+  {
+    "season": 2022,
+    "round": 18,
+    "race": "Japanese Grand Prix",
+    "status": "ok",
+    "laps": 507,
+    "secs": 5.7
+  },
+  {
+    "season": 2022,
+    "round": 19,
+    "race": "United States Grand Prix",
+    "status": "ok",
+    "laps": 992,
+    "secs": 6.5
+  },
+  {
+    "season": 2022,
+    "round": 20,
+    "race": "Mexico City Grand Prix",
+    "status": "ok",
+    "laps": 1379,
+    "secs": 7.0
+  },
+  {
+    "season": 2022,
+    "round": 21,
+    "race": "S\u00e3o Paulo Grand Prix",
+    "status": "ok",
+    "laps": 1259,
+    "secs": 6.7
+  },
+  {
+    "season": 2022,
+    "round": 22,
+    "race": "Abu Dhabi Grand Prix",
+    "status": "ok",
+    "laps": 1117,
+    "secs": 7.3
+  },
+  {
+    "season": 2023,
+    "round": 1,
+    "race": "Bahrain Grand Prix",
+    "status": "ok",
+    "laps": 1056,
+    "secs": 4.6
+  },
+  {
+    "season": 2023,
+    "round": 2,
+    "race": "Saudi Arabian Grand Prix",
+    "status": "ok",
+    "laps": 943,
+    "secs": 5.0
+  },
+  {
+    "season": 2023,
+    "round": 3,
+    "race": "Australian Grand Prix",
+    "status": "ok",
+    "laps": 1003,
+    "secs": 5.3
+  },
+  {
+    "season": 2023,
+    "round": 4,
+    "race": "Azerbaijan Grand Prix",
+    "status": "ok",
+    "laps": 962,
+    "secs": 5.1
+  },
+  {
+    "season": 2023,
+    "round": 5,
+    "race": "Miami Grand Prix",
+    "status": "ok",
+    "laps": 1138,
+    "secs": 5.4
+  },
+  {
+    "season": 2023,
+    "round": 6,
+    "race": "Monaco Grand Prix",
+    "status": "ok",
+    "laps": 1515,
+    "secs": 4.9
+  },
+  {
+    "season": 2023,
+    "round": 7,
+    "race": "Spanish Grand Prix",
+    "status": "ok",
+    "laps": 1312,
+    "secs": 5.1
+  },
+  {
+    "season": 2023,
+    "round": 8,
+    "race": "Canadian Grand Prix",
+    "status": "ok",
+    "laps": 1317,
+    "secs": 4.9
+  },
+  {
+    "season": 2023,
+    "round": 9,
+    "race": "Austrian Grand Prix",
+    "status": "ok",
+    "laps": 1354,
+    "secs": 5.2
+  },
+  {
+    "season": 2023,
+    "round": 10,
+    "race": "British Grand Prix",
+    "status": "ok",
+    "laps": 971,
+    "secs": 4.0
+  },
+  {
+    "season": 2023,
+    "round": 11,
+    "race": "Hungarian Grand Prix",
+    "status": "ok",
+    "laps": 1252,
+    "secs": 5.7
+  },
+  {
+    "season": 2023,
+    "round": 12,
+    "race": "Belgian Grand Prix",
+    "status": "ok",
+    "laps": 816,
+    "secs": 3.9
+  },
+  {
+    "season": 2023,
+    "round": 13,
+    "race": "Dutch Grand Prix",
+    "status": "ok",
+    "laps": 1343,
+    "secs": 5.9
+  },
+  {
+    "season": 2023,
+    "round": 14,
+    "race": "Italian Grand Prix",
+    "status": "ok",
+    "laps": 957,
+    "secs": 5.3
+  },
+  {
+    "season": 2023,
+    "round": 15,
+    "race": "Singapore Grand Prix",
+    "status": "ok",
+    "laps": 1088,
+    "secs": 4.6
+  },
+  {
+    "season": 2023,
+    "round": 16,
+    "race": "Japanese Grand Prix",
+    "status": "ok",
+    "laps": 880,
+    "secs": 4.5
+  },
+  {
+    "season": 2023,
+    "round": 17,
+    "race": "Qatar Grand Prix",
+    "status": "ok",
+    "laps": 1006,
+    "secs": 5.3
+  },
+  {
+    "season": 2023,
+    "round": 18,
+    "race": "United States Grand Prix",
+    "status": "ok",
+    "laps": 1014,
+    "secs": 4.0
+  },
+  {
+    "season": 2023,
+    "round": 19,
+    "race": "Mexico City Grand Prix",
+    "status": "ok",
+    "laps": 1282,
+    "secs": 4.5
+  },
+  {
+    "season": 2023,
+    "round": 20,
+    "race": "S\u00e3o Paulo Grand Prix",
+    "status": "ok",
+    "laps": 1108,
+    "secs": 4.8
+  },
+  {
+    "season": 2023,
+    "round": 21,
+    "race": "Las Vegas Grand Prix",
+    "status": "ok",
+    "laps": 946,
+    "secs": 5.0
+  },
+  {
+    "season": 2023,
+    "round": 22,
+    "race": "Abu Dhabi Grand Prix",
+    "status": "ok",
+    "laps": 1157,
+    "secs": 4.7
+  },
+  {
+    "season": 2024,
+    "round": 1,
+    "race": "Bahrain Grand Prix",
+    "status": "ok",
+    "laps": 1129,
+    "secs": 5.2
+  },
+  {
+    "season": 2024,
+    "round": 2,
+    "race": "Saudi Arabian Grand Prix",
+    "status": "ok",
+    "laps": 901,
+    "secs": 4.1
+  },
+  {
+    "season": 2024,
+    "round": 3,
+    "race": "Australian Grand Prix",
+    "status": "ok",
+    "laps": 998,
+    "secs": 5.1
+  },
+  {
+    "season": 2024,
+    "round": 4,
+    "race": "Japanese Grand Prix",
+    "status": "ok",
+    "laps": 907,
+    "secs": 1.6
+  },
+  {
+    "season": 2024,
+    "round": 5,
+    "race": "Chinese Grand Prix",
+    "status": "ok",
+    "laps": 1032,
+    "secs": 4.9
+  },
+  {
+    "season": 2024,
+    "round": 6,
+    "race": "Miami Grand Prix",
+    "status": "ok",
+    "laps": 1111,
+    "secs": 4.3
+  },
+  {
+    "season": 2024,
+    "round": 7,
+    "race": "Emilia Romagna Grand Prix",
+    "status": "ok",
+    "laps": 1238,
+    "secs": 5.1
+  },
+  {
+    "season": 2024,
+    "round": 8,
+    "race": "Monaco Grand Prix",
+    "status": "ok",
+    "laps": 1237,
+    "secs": 5.0
+  },
+  {
+    "season": 2024,
+    "round": 9,
+    "race": "Canadian Grand Prix",
+    "status": "ok",
+    "laps": 1272,
+    "secs": 5.2
+  },
+  {
+    "season": 2024,
+    "round": 10,
+    "race": "Spanish Grand Prix",
+    "status": "ok",
+    "laps": 1310,
+    "secs": 4.3
+  },
+  {
+    "season": 2024,
+    "round": 11,
+    "race": "Austrian Grand Prix",
+    "status": "ok",
+    "laps": 1405,
+    "secs": 5.5
+  },
+  {
+    "season": 2024,
+    "round": 12,
+    "race": "British Grand Prix",
+    "status": "ok",
+    "laps": 960,
+    "secs": 4.5
+  },
+  {
+    "season": 2024,
+    "round": 13,
+    "race": "Hungarian Grand Prix",
+    "status": "ok",
+    "laps": 1355,
+    "secs": 5.4
+  },
+  {
+    "season": 2024,
+    "round": 14,
+    "race": "Belgian Grand Prix",
+    "status": "ok",
+    "laps": 841,
+    "secs": 3.5
+  },
+  {
+    "season": 2024,
+    "round": 15,
+    "race": "Dutch Grand Prix",
+    "status": "ok",
+    "laps": 1426,
+    "secs": 5.7
+  },
+  {
+    "season": 2024,
+    "round": 16,
+    "race": "Italian Grand Prix",
+    "status": "ok",
+    "laps": 1008,
+    "secs": 4.9
+  },
+  {
+    "season": 2024,
+    "round": 17,
+    "race": "Azerbaijan Grand Prix",
+    "status": "ok",
+    "laps": 973,
+    "secs": 5.2
+  },
+  {
+    "season": 2024,
+    "round": 18,
+    "race": "Singapore Grand Prix",
+    "status": "ok",
+    "laps": 1177,
+    "secs": 4.3
+  },
+  {
+    "season": 2024,
+    "round": 19,
+    "race": "United States Grand Prix",
+    "status": "ok",
+    "laps": 1059,
+    "secs": 4.6
+  },
+  {
+    "season": 2024,
+    "round": 20,
+    "race": "Mexico City Grand Prix",
+    "status": "ok",
+    "laps": 1215,
+    "secs": 4.7
+  },
+  {
+    "season": 2024,
+    "round": 21,
+    "race": "S\u00e3o Paulo Grand Prix",
+    "status": "ok",
+    "laps": 1134,
+    "secs": 4.8
+  },
+  {
+    "season": 2024,
+    "round": 22,
+    "race": "Las Vegas Grand Prix",
+    "status": "ok",
+    "laps": 938,
+    "secs": 5.0
+  },
+  {
+    "season": 2024,
+    "round": 23,
+    "race": "Qatar Grand Prix",
+    "status": "ok",
+    "laps": 943,
+    "secs": 4.7
+  },
+  {
+    "season": 2024,
+    "round": 24,
+    "race": "Abu Dhabi Grand Prix",
+    "status": "ok",
+    "laps": 1035,
+    "secs": 0.6
+  }
+]

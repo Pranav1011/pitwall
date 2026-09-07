@@ -1,0 +1,12 @@
+| rule | removed | remaining |
+| --- | --- | --- |
+| null_laptime | 1187 | 73414 |
+| null_tyrelife | 543 | 72871 |
+| lap_1 | 1324 | 71547 |
+| pit_in_out_laps | 4406 | 67141 |
+| non_green_track_status | 5223 | 61918 |
+| mixed_condition_race | 7536 | 54382 |
+| wet_intermediate_laps | 0 | 54382 |
+| unknown_compound | 26 | 54356 |
+| stint_median_outlier_7pct | 91 | 54265 |
+| short_stint_lt5 | 411 | 53854 |

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# FastF1 cache and bulky raw pulls (re-ingested with scripts/ingest.py)
+cache/
+data/raw/
+data/out_*/
+data/ingest*.log
+
+# committed for reproducibility: data/laps_clean.parquet, results/*, figures/*
+.DS_Store
