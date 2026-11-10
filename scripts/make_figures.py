@@ -5,7 +5,6 @@ Saves PNGs to figures/. Every figure is built from measured artifacts.
 from __future__ import annotations
 
 import glob
-import pickle
 
 import matplotlib
 
@@ -14,6 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from pitwall.artifacts import StaleModelError, load_fitted_model
 from pitwall.config import CLEAN_PARQUET, DRY_COMPOUNDS, FIGURES_DIR, RAW_DIR, RESULTS_DIR
 from pitwall.model import predict_main, prepare
 from pitwall.simulate import build_env, residual_sigma, stint_caps
@@ -130,8 +130,10 @@ def fig_pred_actual():
 def main() -> None:
     FIGURES_DIR.mkdir(exist_ok=True)
     clean = pd.read_parquet(CLEAN_PARQUET)
-    with open(RESULTS_DIR / "model_full.pkl", "rb") as f:
-        model = pickle.load(f)
+    try:
+        model = load_fitted_model(RESULTS_DIR / "model_full.pkl", CLEAN_PARQUET)
+    except StaleModelError as err:
+        raise SystemExit(f"error: {err}") from None
     raw = pd.concat((pd.read_parquet(f) for f in glob.glob(str(RAW_DIR / "*.parquet"))),
                     ignore_index=True)
     fig_degradation(clean, model)

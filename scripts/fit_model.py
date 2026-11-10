@@ -10,6 +10,7 @@ import pickle
 import numpy as np
 import pandas as pd
 
+from pitwall.artifacts import file_sha256
 from pitwall.config import CLEAN_PARQUET, DRY_COMPOUNDS, RESULTS_DIR
 from pitwall.model import (
     fit_baseline,
@@ -36,6 +37,7 @@ def per_compound_mae(comp: np.ndarray, err: np.ndarray) -> dict:
 
 
 def main() -> None:
+    data_hash = file_sha256(CLEAN_PARQUET)
     df = prepare(pd.read_parquet(CLEAN_PARQUET))
     df["race_id"] = df["season"].astype(str) + "_" + df["round"].astype(str)
     n_races = df["race_id"].nunique()
@@ -81,6 +83,7 @@ def main() -> None:
 
     # final fit on all data for figures / coefficients
     full = fit_main(df)
+    full.data_hash = data_hash
 
     metrics = {
         "laps": len(df),

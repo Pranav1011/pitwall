@@ -118,6 +118,7 @@ class MainModel:
     converged: bool
     method: str
     driver_fe: dict = field(default_factory=dict)  # OLS-fallback driver intercepts
+    data_hash: str | None = None  # sha256 of the clean parquet it was fitted on
 
 
 def _design(df: pd.DataFrame, seasons: list[int]) -> tuple[np.ndarray, list[str]]:

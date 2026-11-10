@@ -7,12 +7,12 @@ from __future__ import annotations
 
 import glob
 import json
-import pickle
 from collections import Counter
 
 import numpy as np
 import pandas as pd
 
+from pitwall.artifacts import StaleModelError, load_fitted_model
 from pitwall.config import CLEAN_PARQUET, RAW_DIR, RESULTS_DIR
 from pitwall.model import prepare
 from pitwall.simulate import (
@@ -55,8 +55,10 @@ def agrees(pred_laps, act_laps) -> bool:
 
 def main() -> None:
     clean = pd.read_parquet(CLEAN_PARQUET)
-    with open(RESULTS_DIR / "model_full.pkl", "rb") as f:
-        model = pickle.load(f)
+    try:
+        model = load_fitted_model(RESULTS_DIR / "model_full.pkl", CLEAN_PARQUET)
+    except StaleModelError as err:
+        raise SystemExit(f"error: {err}") from None
     resid = residual_sigma(model, clean)
     caps = stint_caps(clean)
 
