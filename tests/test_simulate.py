@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from pitwall.model import fit_main, prepare
 from pitwall.simulate import RaceEnv, best_plan
@@ -51,3 +52,10 @@ def test_percentile_band_is_ordered():
     env = _env(_fit(slope=0.05), pit_loss=22.0, resid_sigma=0.6)
     best = best_plan(env, n=500)["best"]
     assert best["p5"] < best["mean"] < best["p95"]
+
+
+def test_best_plan_raises_clear_error_when_no_plan_is_feasible():
+    """Stint caps shorter than any legal stint leave no plan; say so, not IndexError."""
+    env = _env(_fit(slope=0.05), pit_loss=22.0, caps={"SOFT": 5, "MEDIUM": 5, "HARD": 5})
+    with pytest.raises(ValueError, match="no feasible pit plan"):
+        best_plan(env, n=50)

@@ -206,5 +206,10 @@ def best_plan(env: RaceEnv, n: int = 2000, seed: int = 0) -> dict:
     results = [simulate_plan(env, pl, n, rng)
                for pl in enumerate_pit_plans(env.total_laps)]
     results = [r for r in results if r is not None]
+    if not results:
+        raise ValueError(
+            f"no feasible pit plan for {env.circuit} ({env.total_laps} laps): every "
+            f"1- and 2-stop plan has a stint longer than the stint caps {env.caps} "
+            f"or cannot use two distinct compounds")
     results.sort(key=lambda r: r["mean"])
     return {"best": results[0], "all": results}
