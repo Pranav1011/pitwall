@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from pitwall.model import fit_main, predict_main, prepare
 
@@ -56,3 +57,11 @@ def test_model_recovers_circuit_offset():
     })
     a, b = predict_main(m, g)
     assert a - b > 8  # ~12s base gap between the two circuits
+
+
+def test_predict_main_rejects_unknown_method():
+    """An unrecognised fit path must fail loudly, not silently use the OLS branch."""
+    m = fit_main(_dataset())
+    m.method = "GLS"
+    with pytest.raises(ValueError, match="unknown MainModel method"):
+        predict_main(m, _dataset())

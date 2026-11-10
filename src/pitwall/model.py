@@ -184,11 +184,13 @@ def fit_main(train: pd.DataFrame) -> MainModel:
 def predict_main(m: MainModel, test: pd.DataFrame) -> np.ndarray:
     X, _ = _design(test, m.seasons)
     yc = X @ m.fe_params
+    ds = test["driver_season"].to_numpy()
     if m.method == "MixedLM":
-        ds = test["driver_season"].to_numpy()
         yc = yc + np.array([m.re.get(g, 0.0) for g in ds])
-    else:
-        ds = test["driver_season"].to_numpy()
+    elif m.method == "OLS_driver_FE":
         yc = yc + np.array([m.driver_fe.get(f"drv_{g}", 0.0) for g in ds])
+    else:
+        raise ValueError(f"unknown MainModel method {m.method!r}; "
+                         "expected 'MixedLM' or 'OLS_driver_FE'")
     base = test["circuit"].map(m.circuit_mean).fillna(m.global_mean).to_numpy()
     return yc + base
