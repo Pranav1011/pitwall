@@ -5,7 +5,6 @@ of the field's median. Writes results/backtest.json and results/backtest_table.m
 
 from __future__ import annotations
 
-import glob
 import json
 from collections import Counter
 
@@ -13,8 +12,9 @@ import numpy as np
 import pandas as pd
 
 from pitwall.artifacts import StaleModelError, load_fitted_model
-from pitwall.config import CLEAN_PARQUET, RAW_DIR, RESULTS_DIR
+from pitwall.config import CLEAN_PARQUET, RACE_LAPS_PARQUET, RESULTS_DIR
 from pitwall.model import prepare
+from pitwall.race_laps import load_race_laps
 from pitwall.simulate import (
     build_env,
     enumerate_pit_plans,
@@ -62,8 +62,7 @@ def main() -> None:
     resid = residual_sigma(model, clean)
     caps = stint_caps(clean)
 
-    raw = pd.concat((pd.read_parquet(f) for f in glob.glob(str(RAW_DIR / "*.parquet"))),
-                    ignore_index=True)
+    raw = load_race_laps(RACE_LAPS_PARQUET)
     prep = prepare(clean)
     prep["race_id"] = prep["season"].astype(str) + "_" + prep["round"].astype(str)
 

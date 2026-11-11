@@ -11,6 +11,7 @@ RESULTS_DIR = ROOT / "results"
 FIGURES_DIR = ROOT / "figures"
 
 CLEAN_PARQUET = DATA_DIR / "laps_clean.parquet"
+RACE_LAPS_PARQUET = DATA_DIR / "race_laps.parquet"  # Tier 3 inputs, built from data/raw
 
 DRY_COMPOUNDS = ["SOFT", "MEDIUM", "HARD"]
 WET_COMPOUNDS = ["INTERMEDIATE", "WET"]

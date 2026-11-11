@@ -4,8 +4,6 @@ Saves PNGs to figures/. Every figure is built from measured artifacts.
 
 from __future__ import annotations
 
-import glob
-
 import matplotlib
 
 matplotlib.use("Agg")
@@ -14,8 +12,15 @@ import numpy as np
 import pandas as pd
 
 from pitwall.artifacts import StaleModelError, load_fitted_model
-from pitwall.config import CLEAN_PARQUET, DRY_COMPOUNDS, FIGURES_DIR, RAW_DIR, RESULTS_DIR
+from pitwall.config import (
+    CLEAN_PARQUET,
+    DRY_COMPOUNDS,
+    FIGURES_DIR,
+    RACE_LAPS_PARQUET,
+    RESULTS_DIR,
+)
 from pitwall.model import predict_main, prepare
+from pitwall.race_laps import load_race_laps
 from pitwall.simulate import build_env, residual_sigma, stint_caps
 
 COLORS = {"SOFT": "#d1122b", "MEDIUM": "#e8b000", "HARD": "#8a8a8a"}
@@ -134,8 +139,7 @@ def main() -> None:
         model = load_fitted_model(RESULTS_DIR / "model_full.pkl", CLEAN_PARQUET)
     except StaleModelError as err:
         raise SystemExit(f"error: {err}") from None
-    raw = pd.concat((pd.read_parquet(f) for f in glob.glob(str(RAW_DIR / "*.parquet"))),
-                    ignore_index=True)
+    raw = load_race_laps(RACE_LAPS_PARQUET)
     fig_degradation(clean, model)
     fig_pit_window(clean, raw, model)
     fig_pred_actual()
