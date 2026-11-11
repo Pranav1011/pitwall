@@ -1,4 +1,4 @@
-"""Tier 4 figures: degradation curves, pit-window sensitivity, predicted-vs-actual.
+"""Figures: degradation curves, pit-window sensitivity, predicted-vs-actual.
 Saves PNGs to figures/. Every figure is built from measured artifacts.
 """
 
