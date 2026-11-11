@@ -1,11 +1,11 @@
 {
-  "races_backtested": 59,
+  "races_backtested": 57,
   "n_sims_per_plan": 2000,
   "agreement_definition": "same stop count and every pit lap within +/-3",
-  "agreement_rate_pct": 6.8,
-  "stop_count_agreement_pct": 49.2,
-  "median_pit_lap_offset": 8,
-  "mean_pit_lap_offset": 7.4,
+  "agreement_rate_pct": 10.5,
+  "stop_count_agreement_pct": 54.4,
+  "median_pit_lap_offset": 7,
+  "mean_pit_lap_offset": 6.9,
   "offset_note": "sim pits later than the field (positive) \u2014 the unmodelled undercut/track-position effect makes real teams stop earlier",
   "resid_sigma_s": 1.457,
   "stint_caps": {
@@ -35,9 +35,8 @@
     },
     {
       "race": "2022 British Grand Prix",
-      "actual_stops": 3,
+      "actual_stops": 2,
       "actual_pit_laps": [
-        1,
         19,
         39
       ],
@@ -50,7 +49,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": 51.1
+      "pred_time_gain_s": 21.0
     },
     {
       "race": "2022 Austrian Grand Prix",
@@ -481,8 +480,8 @@
       "race": "2023 Qatar Grand Prix",
       "actual_stops": 3,
       "actual_pit_laps": [
-        11,
-        25,
+        12,
+        26,
         43
       ],
       "pred_stops": 1,
@@ -494,7 +493,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": 44.9
+      "pred_time_gain_s": 44.8
     },
     {
       "race": "2023 United States Grand Prix",
@@ -516,10 +515,9 @@
     },
     {
       "race": "2023 Mexico City Grand Prix",
-      "actual_stops": 2,
+      "actual_stops": 1,
       "actual_pit_laps": [
-        26,
-        34
+        26
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -532,7 +530,7 @@
         "HARD"
       ],
       "agree": false,
-      "pred_time_gain_s": 7.6
+      "pred_time_gain_s": null
     },
     {
       "race": "2023 Saudi Arabian Grand Prix",
@@ -553,10 +551,8 @@
     },
     {
       "race": "2023 S\u00e3o Paulo Grand Prix",
-      "actual_stops": 4,
+      "actual_stops": 2,
       "actual_pit_laps": [
-        1,
-        2,
         25,
         51
       ],
@@ -570,15 +566,14 @@
         "HARD",
         "MEDIUM"
       ],
-      "agree": false,
-      "pred_time_gain_s": 29.6
+      "agree": true,
+      "pred_time_gain_s": 0.5
     },
     {
       "race": "2023 Las Vegas Grand Prix",
-      "actual_stops": 2,
+      "actual_stops": 1,
       "actual_pit_laps": [
-        11,
-        26
+        20
       ],
       "pred_stops": 1,
       "pred_pit_laps": [
@@ -588,8 +583,8 @@
         "MEDIUM",
         "HARD"
       ],
-      "agree": false,
-      "pred_time_gain_s": 16.6
+      "agree": true,
+      "pred_time_gain_s": 0.1
     },
     {
       "race": "2023 Abu Dhabi Grand Prix",
@@ -608,25 +603,6 @@
       ],
       "agree": false,
       "pred_time_gain_s": 14.3
-    },
-    {
-      "race": "2023 Australian Grand Prix",
-      "actual_stops": 3,
-      "actual_pit_laps": [
-        8,
-        55,
-        57
-      ],
-      "pred_stops": 1,
-      "pred_pit_laps": [
-        36
-      ],
-      "pred_compounds": [
-        "HARD",
-        "MEDIUM"
-      ],
-      "agree": false,
-      "pred_time_gain_s": null
     },
     {
       "race": "2023 Azerbaijan Grand Prix",
@@ -649,7 +625,7 @@
       "race": "2023 Miami Grand Prix",
       "actual_stops": 1,
       "actual_pit_laps": [
-        19
+        20
       ],
       "pred_stops": 1,
       "pred_pit_laps": [
@@ -660,7 +636,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": null
+      "pred_time_gain_s": 4.4
     },
     {
       "race": "2023 Spanish Grand Prix",
@@ -687,7 +663,7 @@
       "actual_stops": 2,
       "actual_pit_laps": [
         12,
-        36
+        37
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -700,15 +676,14 @@
         "HARD"
       ],
       "agree": false,
-      "pred_time_gain_s": 8.3
+      "pred_time_gain_s": 8.1
     },
     {
       "race": "2023 Austrian Grand Prix",
-      "actual_stops": 3,
+      "actual_stops": 2,
       "actual_pit_laps": [
-        2,
         14,
-        41
+        42
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -721,7 +696,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": 22.7
+      "pred_time_gain_s": 3.3
     },
     {
       "race": "2024 Bahrain Grand Prix",
@@ -786,7 +761,7 @@
       "actual_stops": 2,
       "actual_pit_laps": [
         16,
-        42
+        45
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -1016,9 +991,8 @@
     },
     {
       "race": "2024 Japanese Grand Prix",
-      "actual_stops": 3,
+      "actual_stops": 2,
       "actual_pit_laps": [
-        1,
         15,
         33
       ],
@@ -1031,7 +1005,7 @@
         "HARD"
       ],
       "agree": false,
-      "pred_time_gain_s": 40.0
+      "pred_time_gain_s": 21.9
     },
     {
       "race": "2024 Chinese Grand Prix",
@@ -1081,25 +1055,6 @@
       "pred_compounds": [
         "HARD",
         "MEDIUM"
-      ],
-      "agree": false,
-      "pred_time_gain_s": null
-    },
-    {
-      "race": "2024 Monaco Grand Prix",
-      "actual_stops": 1,
-      "actual_pit_laps": [
-        1
-      ],
-      "pred_stops": 2,
-      "pred_pit_laps": [
-        24,
-        44
-      ],
-      "pred_compounds": [
-        "HARD",
-        "MEDIUM",
-        "HARD"
       ],
       "agree": false,
       "pred_time_gain_s": null

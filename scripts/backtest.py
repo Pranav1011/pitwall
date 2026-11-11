@@ -14,7 +14,7 @@ import pandas as pd
 from pitwall.artifacts import StaleModelError, load_fitted_model
 from pitwall.config import CLEAN_PARQUET, RACE_LAPS_PARQUET, RESULTS_DIR
 from pitwall.model import prepare
-from pitwall.race_laps import load_race_laps
+from pitwall.race_laps import load_race_laps, strategic_pit_laps
 from pitwall.simulate import (
     build_env,
     enumerate_pit_plans,
@@ -28,14 +28,13 @@ LAP_TOL = 3
 
 
 def actual_strategy(raw_race: pd.DataFrame, total_laps: int):
-    """Field-consensus strategy: modal stop count, median pit laps for that count."""
+    """Field-consensus strategy: modal stop count, median pit laps for that count.
+    Lap-1/2 and red-flag tyre changes are not counted as stops (strategic_pit_laps)."""
     finishers = []
     for drv, g in raw_race.groupby("Driver"):
         if g["LapNumber"].max() < 0.9 * total_laps:
             continue
-        pits = sorted(int(x) for x in g.loc[g["PitInTime"].notna(), "LapNumber"]
-                      if x < total_laps)
-        finishers.append((drv, pits))
+        finishers.append((drv, strategic_pit_laps(g, total_laps)))
     if not finishers:
         return None
     counts = Counter(len(p) for _, p in finishers)

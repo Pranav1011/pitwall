@@ -30,3 +30,21 @@ def load_race_laps(path: Path) -> pd.DataFrame:
         raise SystemExit(f"error: {path} is missing; build it from the raw ingest with "
                          "scripts/build_race_laps.py")
     return pd.read_parquet(path)
+
+
+FIRST_LAPS_NOT_STRATEGIC = 2  # a tyre change on lap 1 or 2 is damage or a lap-1 incident
+RED_FLAG = "5"  # FastF1 track-status code
+
+
+def strategic_pit_laps(driver_laps: pd.DataFrame, total_laps: int) -> list[int]:
+    """Laps on which one driver made a strategic pit stop.
+
+    Two kinds of tyre change are not strategy and are dropped: a change on lap 1 or 2
+    (damage or a first-lap incident), and a change under a red flag, which is free
+    because the race is suspended. Safety-car stops are kept: in many races the field's
+    only planned stop was taken under the safety car."""
+    pits = driver_laps[driver_laps["PitInTime"].notna()
+                       & (driver_laps["LapNumber"] < total_laps)
+                       & (driver_laps["LapNumber"] > FIRST_LAPS_NOT_STRATEGIC)
+                       & ~driver_laps["TrackStatus"].astype(str).str.contains(RED_FLAG)]
+    return sorted(int(x) for x in pits["LapNumber"])
