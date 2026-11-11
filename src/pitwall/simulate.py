@@ -188,6 +188,7 @@ def simulate_plan(env: RaceEnv, pit_laps: list[int], n: int,
         "mean": float(times.mean()),
         "p5": float(np.percentile(times, 5)),
         "p95": float(np.percentile(times, 95)),
+        "mc_se": float(times.std(ddof=1) / np.sqrt(n)),  # Monte-Carlo error of "mean"
     }
 
 

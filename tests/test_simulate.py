@@ -54,6 +54,14 @@ def test_percentile_band_is_ordered():
     assert best["p5"] < best["mean"] < best["p95"]
 
 
+def test_monte_carlo_error_matches_lap_noise():
+    """With only lap-time noise, the error of the mean is sigma*sqrt(laps)/sqrt(n)."""
+    env = _env(_fit(slope=0.05), pit_loss=22.0, resid_sigma=0.6)
+    best = best_plan(env, n=4000)["best"]
+    expected = 0.6 * np.sqrt(40) / np.sqrt(4000)
+    assert best["mc_se"] == pytest.approx(expected, rel=0.1)
+
+
 def test_best_plan_raises_clear_error_when_no_plan_is_feasible():
     """Stint caps shorter than any legal stint leave no plan; say so, not IndexError."""
     env = _env(_fit(slope=0.05), pit_loss=22.0, caps={"SOFT": 5, "MEDIUM": 5, "HARD": 5})

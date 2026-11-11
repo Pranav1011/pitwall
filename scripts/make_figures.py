@@ -65,45 +65,62 @@ def fig_degradation(clean, model):
 
 
 def fig_pit_window(clean, raw, model):
-    """Expected race time vs 1-stop pit lap for one race, with P5-P95 band."""
+    """One-stop pit-lap sweep for one race: expected race time relative to the best
+    one-stop lap, with 95% Monte-Carlo error bars, plus the P5-P95 outcome band.
+    Pit laps with no feasible compound plan are marked, not interpolated across."""
     from pitwall.simulate import enumerate_pit_plans, simulate_plan
     resid = residual_sigma(model, clean)
     caps = stint_caps(clean)
-    circuit = "Bahrain Grand Prix"
+    circuit, season, n_sims = "Bahrain Grand Prix", 2023, 2000
     total = int(raw[raw["race"] == circuit]["LapNumber"].max())
-    env = build_env(circuit, 2023, total, model, clean, raw, resid, caps)
+    env = build_env(circuit, season, total, model, clean, raw, resid, caps)
     rng = np.random.default_rng(0)
-    ones = []
+    laps, sims = [], []
     for pl in enumerate_pit_plans(total):
-        if len(pl) != 1:
-            continue
-        s = simulate_plan(env, pl, 2000, rng)
-        if s:
-            ones.append((pl[0], s["mean"], s["p5"], s["p95"]))
-    ones.sort()
-    x = np.array([o[0] for o in ones])
-    mean = np.array([o[1] for o in ones])
-    p5 = np.array([o[2] for o in ones])
-    p95 = np.array([o[3] for o in ones])
-    opt = int(x[int(np.argmin(mean))])
+        if len(pl) == 1:
+            laps.append(pl[0])
+            sims.append(simulate_plan(env, pl, n_sims, rng))
+    x = np.array(laps)
+    ok = np.array([s is not None for s in sims])
 
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(12, 5))
-    # left: expected time, zoomed to show the (shallow) optimum
-    a1.plot(x, mean, "-o", ms=4, color="#1f77b4")
-    a1.axvline(opt, ls="--", color="#d1122b", label=f"pace optimum: lap {opt}")
-    a1.set_ylim(mean.min() - 1.5, mean.min() + 8)
+    def col(key):
+        return np.array([s[key] if s else np.nan for s in sims])
+
+    mean, se, p5, p95 = col("mean"), col("mc_se"), col("p5"), col("p95")
+    best = int(np.nanargmin(mean))
+    diff = mean - mean[best]
+    diff_err = 1.96 * np.sqrt(se ** 2 + se[best] ** 2)
+    diff_err[best] = 0.0  # the reference plan itself
+    step = np.diff(x).min()
+
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(12, 5.8))
+    for ax in (a1, a2):
+        for i, xi in enumerate(x[~ok]):
+            ax.axvspan(xi - step / 2, xi + step / 2, color="#bbbbbb", alpha=0.35, lw=0,
+                       label="infeasible: no legal two-compound plan" if i == 0 else None)
+    a1.axhline(0, color="k", lw=0.6, alpha=0.4)
+    a1.errorbar(x[ok], diff[ok], yerr=diff_err[ok], fmt="o", ms=4, capsize=2,
+                color="#1f77b4", label="vs best lap (±95% Monte-Carlo error)")
+    a1.plot(x[best], 0, "o", ms=9, mfc="none", mec="#d1122b", mew=1.8,
+            label=f"lowest expected time: lap {x[best]}")
     a1.set_xlabel("One-stop pit lap")
-    a1.set_ylabel("Expected race time (s)")
-    a1.set_title("Expected time is shallow (~few s):\nreal timing is set by the undercut")
-    a1.legend()
-    # right: full P5-P95 outcome spread (safety-car driven)
-    a2.fill_between(x, p5, p95, alpha=0.2, color="#1f77b4", label="P5–P95 outcomes")
-    a2.plot(x, mean, "-o", ms=4, color="#1f77b4", label="expected")
+    a1.set_ylabel("Expected race time minus best one-stop lap (s)")
+    a1.set_title("Expected race time relative to the best one-stop lap")
+    a1.legend(fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.13), ncol=2)
+
+    for seg in np.split(np.arange(len(x)), np.flatnonzero(~ok)):
+        seg = seg[ok[seg]]
+        if len(seg):
+            a2.fill_between(x[seg], p5[seg], p95[seg], alpha=0.25, color="#1f77b4", lw=0)
+            a2.plot(x[seg], mean[seg], "-o", ms=3, color="#1f77b4")
+    a2.fill_between([], [], [], alpha=0.25, color="#1f77b4", label="P5–P95 outcomes")
+    a2.plot([], [], "-o", ms=3, color="#1f77b4", label="expected")
     a2.set_xlabel("One-stop pit lap")
     a2.set_ylabel("Simulated race time (s)")
-    a2.set_title("Outcome spread is dominated by\nsafety-car risk (±~75 s)")
-    a2.legend()
-    fig.suptitle(f"Pit-window sensitivity — {circuit} ({total} laps, 1-stop)")
+    a2.set_title("Spread of simulated outcomes per pit lap")
+    a2.legend(fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.13), ncol=2)
+    fig.suptitle(f"One-stop pit-lap sweep — {season} {circuit} ({total} laps, "
+                 f"{n_sims:,} simulations per lap)")
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "pit_window_sensitivity.png", dpi=130)
     plt.close(fig)
