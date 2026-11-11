@@ -10,9 +10,9 @@ teams actually did?
 | | Result | Source |
 | --- | --- | --- |
 | Lap-time model, out-of-sample | **1.31 s/lap MAE vs 1.71 s/lap** for a per-circuit × compound baseline (**23.4% lower**) | `results/model_metrics.json` |
-| Simulator vs the field, stop count | **54.4%** of 57 races (31) | `results/backtest.json` |
-| Simulator vs the field, stop count and every pit lap ±3 | **10.5%** (6 of 57) | `results/backtest.json` |
-| Pit-lap offset where stop counts match | simulator pits **+6.9 laps later** than the field on average | `results/backtest.json` |
+| Simulator vs the field, stop count | **56.1%** of 57 races (32) | `results/backtest.json` |
+| Simulator vs the field, stop count and every pit lap ±3 | **12.3%** (7 of 57) | `results/backtest.json` |
+| Pit-lap offset where stop counts match | simulator pits **+6.6 laps later** than the field on average | `results/backtest.json` |
 
 The model is a real improvement on a baseline that already knows the circuit, though part
 of the gain may be its fuel term (see [limitations](#design-decisions-and-limitations)).
@@ -38,7 +38,7 @@ FastF1 API
 data/raw/*.parquet                 68 races, gitignored
    ├─ scripts/build_clean.py     → data/laps_clean.parquet   (Tier 1, committed)
    │                               results/exclusion_table.*, tier1_summary.json
-   └─ scripts/build_race_laps.py → data/race_laps.parquet    (8 raw-lap columns, committed)
+   └─ scripts/build_race_laps.py → data/race_laps.parquet    (10 raw-lap columns, committed)
 
 data/laps_clean.parquet
    └─ scripts/fit_model.py       → results/model_full.pkl (stamped with the clean-data
@@ -46,6 +46,7 @@ data/laps_clean.parquet
 
 laps_clean + race_laps + model_full.pkl
    ├─ scripts/backtest.py        → results/backtest.json, backtest_table.md        (Tier 3)
+   │                               (--holdout-circuit-inputs → backtest_holdout.*)
    └─ scripts/make_figures.py    → figures/*.png
 ```
 
@@ -172,33 +173,51 @@ right, the P5–P95 band is about 150 s wide, mostly from safety-car risk.
 ### Backtest vs the field (57 races)
 
 Agreement is defined up front as **same stop count *and* every pit lap within ±3 laps** of
-the field's median strategy. The simulator never sees the actual pit laps.
+the field's median strategy.
 
-The field's strategy counts only strategic stops. Tyre changes on lap 1 or 2 (damage,
-first-lap incidents) and under a red flag (free, because the race is suspended) are
-dropped; safety-car stops are kept, because in many races the field's only planned stop
-was made under the safety car. Two races, 2023 Australia and 2024 Monaco, have no
-strategic stop left and are not backtested.
+The field's strategy counts only strategic stops:
 
-- **Stop-count agreement: 54.4%** (31 of 57) — the simulator picks the right number of
+- A pit entry counts only if the tyres changed (a new compound, or tyre life that does
+  not simply continue). This drops pit-lane passes on the same tyres, such as the field
+  being routed through the pit lane behind the safety car in 2024 Qatar.
+- Tyre changes on lap 1 or 2 (damage, first-lap incidents) are dropped.
+- Tyre changes under a red flag are dropped, because they are free while the race is
+  suspended. FastF1 gives track status per lap, not per stop, so this is approximate: a
+  stop is dropped when its in-lap or the next lap shows a red flag.
+- Safety-car stops are kept, because in many races the field's only planned stop was
+  made under the safety car.
+
+Two races, 2023 Australia and 2024 Monaco, have no strategic stop left and are not
+backtested.
+
+- **Stop-count agreement: 56.1%** (32 of 57) — the simulator picks the right number of
   stops about half the time.
-- **Strict (stop count + pit laps ±3) agreement: 10.5%** (6 of 57).
-- **Mean pit-lap offset: +6.9 laps** (median +7) — the simulator pits *later* than the
+- **Strict (stop count + pit laps ±3) agreement: 12.3%** (7 of 57).
+- **Mean pit-lap offset: +6.6 laps** (median +6) — the simulator pits *later* than the
   teams.
 
+**What is and isn't in-sample.** The actual pit laps are never an input to the simulator.
+Everything else is built from every race in the data, including the one being
+backtested: the
+degradation model, the stint caps, and each circuit's pit-loss pool, safety-car rate and
+safety-car start laps (so the target race's own safety-car lap is in the pool). Re-running
+with the circuit inputs rebuilt without the target race
+(`scripts/backtest.py --holdout-circuit-inputs` → `results/backtest_holdout.json`) gives
+the same stop-count agreement, 56.1% (32 of 57), strict agreement 8.8% (5 of 57), and a
+mean offset of +6.0 laps (median +6). The model and stint caps stay in-sample in both runs.
+
 That offset is the main finding: the simulator finds the **pace-optimal** pit window,
-while real teams pit about 7 laps earlier to execute **undercuts** and defend track
+while real teams pit about 6–7 laps earlier to execute **undercuts** and defend track
 position, which a pace-only model does not contain. The pit-window figure shows why
 exact-lap agreement is low: across a wide window the expected-time differences are within
-Monte-Carlo noise, so pace alone doesn't pin down a lap. (A backtest agreement above ~90%
-here would suggest the actual pit laps had leaked into the model; they have not.)
+Monte-Carlo noise, so pace alone doesn't pin down a lap.
 
 ## Design decisions and limitations
 
 Read these before trusting a number.
 
 - **No undercut / track-position model.** The simulator optimises pure race pace, so it
-  systematically pits later than reality (+6.9 laps). This is the single biggest gap.
+  systematically pits later than reality (+6.6 laps). This is the single biggest gap.
 - **The baseline has no fuel term.** Part of the 23.4% gain may be fuel correction rather
   than degradation modelling (see Tier 2).
 - **The degradation curves are quadratic, not constrained to rise.** The SOFT curve
@@ -217,7 +236,7 @@ Read these before trusting a number.
 - **Simplified safety-car model** — fixed duration and slowdown factor; SC rates at some
   circuits rest on only 2–3 races.
 - **Committed derived data instead of raw data.** The raw FastF1 pulls are gitignored;
-  `data/race_laps.parquet` (8 columns, ~360 KB) is the part of them Tier 3 needs. Changing
+  `data/race_laps.parquet` (10 columns, ~390 KB) is the part of them Tier 3 needs. Changing
   the cleaning rules or the season range still needs a fresh ingest.
 - **Stale-model guard.** `results/model_full.pkl` records the sha256 of the
   `laps_clean.parquet` it was fitted on; the backtest and figures refuse to run on a
@@ -230,9 +249,10 @@ and drop the `uv run`):
 
 ```bash
 uv sync --extra dev
-uv run pytest -q                       # 28 tests
+uv run pytest -q                       # 30 tests
 uv run python scripts/fit_model.py     # Tier 2: LORO CV -> results/model_metrics.json (~20 s)
 uv run python scripts/backtest.py      # Tier 3 -> results/backtest.json (~70 s)
+uv run python scripts/backtest.py --holdout-circuit-inputs  # -> results/backtest_holdout.json
 uv run python scripts/make_figures.py  # figures/*.png (~5 s)
 ```
 
@@ -246,13 +266,13 @@ uv run python scripts/build_clean.py      # Tier 1 -> data/laps_clean.parquet + 
 uv run python scripts/build_race_laps.py  # data/race_laps.parquet for Tier 3 and the figures
 ```
 
-## Tests (28, run in CI on every push)
+## Tests (30, run in CI on every push)
 
 One test per exclusion rule, a degradation-monotonicity test (predicted lap time rises with
 tyre life within a compound), a circuit-offset recovery test, simulator sanity tests (zero
 degradation + real pit loss ⇒ fewest stops; strong wear + free stops ⇒ more stops; ordered
 percentile band; Monte-Carlo error matches the lap noise), the stale-model guard, which
-tyre changes count as strategic stops, and a regression test pinning the clean-lap count.
+tyre changes count as strategic stops (including pit-lane passes on the same tyres), and a regression test pinning the clean-lap count.
 
 ## Layout
 
@@ -263,11 +283,16 @@ scripts/       ingest.py · build_clean.py · build_race_laps.py · fit_model.py
 tests/         test_clean.py · test_model.py · test_simulate.py · test_race_laps.py
                test_artifacts.py
 data/          laps_clean.parquet · race_laps.parquet · ingest_manifest.json (committed)
-results/       metrics JSON, fitted model, exclusion table, backtest table (committed)
+results/       metrics JSON, fitted model, exclusion table, backtest tables (committed)
 figures/       the three PNGs above
 ```
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Race data comes from FastF1 and the official F1 timing
-feed it reads; check their terms before reusing the data.
+The code is MIT-licensed — see [LICENSE](LICENSE). The licence covers the code only.
+
+The committed data (`data/laps_clean.parquet`, `data/race_laps.parquet`) is derived from
+Formula 1 live-timing data, retrieved with [FastF1](https://docs.fastf1.dev/). It is not
+covered by the MIT licence, is included only for non-commercial research and
+reproducibility, and will be removed on request from the rights holder. See
+[data/README.md](data/README.md).
