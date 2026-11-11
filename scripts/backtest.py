@@ -66,6 +66,7 @@ def main() -> None:
     prep["race_id"] = prep["season"].astype(str) + "_" + prep["round"].astype(str)
 
     rows, agree_flags, stopcount_flags, pit_offsets = [], [], [], []
+    pit_loss_median = {}
     for race_id, g in prep.groupby("race_id"):
         season = int(g["season"].iloc[0])
         rnd = int(g["round"].iloc[0])
@@ -78,6 +79,7 @@ def main() -> None:
         act_count, act_laps = act
 
         env = build_env(circuit, season, total_laps, model, clean, raw, resid, caps)
+        pit_loss_median[circuit] = round(float(np.median(env.pit_loss)), 1)
         rng = np.random.default_rng(0)
         sims = [simulate_plan(env, pl, N_SIMS, rng) for pl in enumerate_pit_plans(total_laps)]
         sims = [s for s in sims if s is not None]
@@ -116,6 +118,8 @@ def main() -> None:
                        "undercut/track-position effect makes real teams stop earlier",
         "resid_sigma_s": round(resid, 3),
         "stint_caps": caps,
+        "pit_loss_median_s_by_circuit": dict(sorted(pit_loss_median.items(),
+                                                     key=lambda kv: kv[1])),
         "rows": rows,
     }
     RESULTS_DIR.mkdir(exist_ok=True)

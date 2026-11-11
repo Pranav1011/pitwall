@@ -13,6 +13,32 @@
     "MEDIUM": 27,
     "HARD": 37
   },
+  "pit_loss_median_s_by_circuit": {
+    "Belgian Grand Prix": 19.8,
+    "United States Grand Prix": 21.6,
+    "Hungarian Grand Prix": 21.9,
+    "Australian Grand Prix": 22.1,
+    "Austrian Grand Prix": 22.2,
+    "Miami Grand Prix": 22.6,
+    "S\u00e3o Paulo Grand Prix": 23.1,
+    "Abu Dhabi Grand Prix": 23.9,
+    "Mexico City Grand Prix": 24.0,
+    "Spanish Grand Prix": 24.0,
+    "Azerbaijan Grand Prix": 24.4,
+    "Las Vegas Grand Prix": 24.5,
+    "Japanese Grand Prix": 24.6,
+    "Chinese Grand Prix": 25.1,
+    "Dutch Grand Prix": 25.2,
+    "Saudi Arabian Grand Prix": 25.5,
+    "Italian Grand Prix": 25.8,
+    "Bahrain Grand Prix": 26.1,
+    "British Grand Prix": 29.4,
+    "Singapore Grand Prix": 29.5,
+    "French Grand Prix": 30.1,
+    "Emilia Romagna Grand Prix": 30.2,
+    "Qatar Grand Prix": 30.5,
+    "Canadian Grand Prix": 35.4
+  },
   "rows": [
     {
       "race": "2022 Bahrain Grand Prix",
