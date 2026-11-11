@@ -2,11 +2,11 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2022 Bahrain Grand Prix | 3 | [15, 33, 45] | 1 | [24] | ['MEDIUM', 'HARD'] | False | 37.6 |
 | 2022 British Grand Prix | 2 | [19, 39] | 1 | [32] | ['HARD', 'MEDIUM'] | False | 21.0 |
-| 2022 Austrian Grand Prix | 2 | [15, 43] | 2 | [26, 54] | ['HARD', 'HARD', 'MEDIUM'] | False | 3.0 |
+| 2022 Austrian Grand Prix | 2 | [16, 44] | 2 | [26, 54] | ['HARD', 'HARD', 'MEDIUM'] | False | 2.8 |
 | 2022 French Grand Prix | 1 | [18] | 1 | [20] | ['MEDIUM', 'HARD'] | True | 0.4 |
 | 2022 Hungarian Grand Prix | 2 | [16, 46] | 2 | [26, 50] | ['HARD', 'HARD', 'MEDIUM'] | False | 1.4 |
 | 2022 Belgian Grand Prix | 2 | [13, 28] | 1 | [22] | ['MEDIUM', 'HARD'] | False | 16.8 |
-| 2022 Dutch Grand Prix | 4 | [14, 37, 55, 56] | 2 | [18, 54] | ['HARD', 'HARD', 'MEDIUM'] | False | 39.9 |
+| 2022 Dutch Grand Prix | 3 | [14, 39, 56] | 2 | [18, 54] | ['HARD', 'HARD', 'MEDIUM'] | False | 18.9 |
 | 2022 Italian Grand Prix | 2 | [23, 47] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 16.8 |
 | 2022 United States Grand Prix | 2 | [13, 34] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 13.0 |
 | 2022 Saudi Arabian Grand Prix | 1 | [16] | 1 | [18] | ['MEDIUM', 'HARD'] | True | 0.1 |
@@ -27,7 +27,7 @@
 | 2023 Japanese Grand Prix | 2 | [14, 34] | 1 | [26] | ['MEDIUM', 'HARD'] | False | 21.9 |
 | 2023 Qatar Grand Prix | 3 | [12, 26, 43] | 1 | [32] | ['HARD', 'MEDIUM'] | False | 44.8 |
 | 2023 United States Grand Prix | 2 | [17, 35] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 9.3 |
-| 2023 Mexico City Grand Prix | 1 | [26] | 2 | [32, 50] | ['HARD', 'MEDIUM', 'HARD'] | False | None |
+| 2023 Mexico City Grand Prix | 1 | [24] | 2 | [32, 50] | ['HARD', 'MEDIUM', 'HARD'] | False | None |
 | 2023 Saudi Arabian Grand Prix | 1 | [17] | 1 | [18] | ['MEDIUM', 'HARD'] | True | -0.2 |
 | 2023 São Paulo Grand Prix | 2 | [25, 51] | 2 | [26, 52] | ['HARD', 'HARD', 'MEDIUM'] | True | 0.5 |
 | 2023 Las Vegas Grand Prix | 1 | [20] | 1 | [20] | ['MEDIUM', 'HARD'] | True | 0.1 |
@@ -49,8 +49,8 @@
 | 2024 United States Grand Prix | 1 | [26] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 1.3 |
 | 2024 Saudi Arabian Grand Prix | 1 | [7] | 1 | [18] | ['MEDIUM', 'HARD'] | False | None |
 | 2024 Mexico City Grand Prix | 1 | [30] | 2 | [32, 50] | ['HARD', 'MEDIUM', 'HARD'] | False | None |
-| 2024 Las Vegas Grand Prix | 2 | [11, 29] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 16.0 |
-| 2024 Qatar Grand Prix | 3 | [35, 36, 37] | 1 | [32] | ['HARD', 'MEDIUM'] | False | 57.6 |
+| 2024 Las Vegas Grand Prix | 2 | [11, 30] | 1 | [20] | ['MEDIUM', 'HARD'] | False | 16.0 |
+| 2024 Qatar Grand Prix | 1 | [35] | 1 | [32] | ['HARD', 'MEDIUM'] | True | 0.9 |
 | 2024 Abu Dhabi Grand Prix | 1 | [22] | 1 | [26] | ['MEDIUM', 'HARD'] | False | 0.6 |
 | 2024 Australian Grand Prix | 2 | [9, 36] | 1 | [36] | ['HARD', 'MEDIUM'] | False | 15.9 |
 | 2024 Japanese Grand Prix | 2 | [15, 33] | 1 | [26] | ['MEDIUM', 'HARD'] | False | 21.9 |

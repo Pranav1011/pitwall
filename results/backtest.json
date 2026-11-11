@@ -2,10 +2,10 @@
   "races_backtested": 57,
   "n_sims_per_plan": 2000,
   "agreement_definition": "same stop count and every pit lap within +/-3",
-  "agreement_rate_pct": 10.5,
-  "stop_count_agreement_pct": 54.4,
-  "median_pit_lap_offset": 7,
-  "mean_pit_lap_offset": 6.9,
+  "agreement_rate_pct": 12.3,
+  "stop_count_agreement_pct": 56.1,
+  "median_pit_lap_offset": 6,
+  "mean_pit_lap_offset": 6.6,
   "offset_note": "sim pits later than the field (positive) \u2014 the unmodelled undercut/track-position effect makes real teams stop earlier",
   "resid_sigma_s": 1.457,
   "stint_caps": {
@@ -39,6 +39,7 @@
     "Qatar Grand Prix": 30.5,
     "Canadian Grand Prix": 35.4
   },
+  "circuit_inputs": "in-sample (all races, including the target)",
   "rows": [
     {
       "race": "2022 Bahrain Grand Prix",
@@ -81,8 +82,8 @@
       "race": "2022 Austrian Grand Prix",
       "actual_stops": 2,
       "actual_pit_laps": [
-        15,
-        43
+        16,
+        44
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -95,7 +96,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": 3.0
+      "pred_time_gain_s": 2.8
     },
     {
       "race": "2022 French Grand Prix",
@@ -154,11 +155,10 @@
     },
     {
       "race": "2022 Dutch Grand Prix",
-      "actual_stops": 4,
+      "actual_stops": 3,
       "actual_pit_laps": [
         14,
-        37,
-        55,
+        39,
         56
       ],
       "pred_stops": 2,
@@ -172,7 +172,7 @@
         "MEDIUM"
       ],
       "agree": false,
-      "pred_time_gain_s": 39.9
+      "pred_time_gain_s": 18.9
     },
     {
       "race": "2022 Italian Grand Prix",
@@ -543,7 +543,7 @@
       "race": "2023 Mexico City Grand Prix",
       "actual_stops": 1,
       "actual_pit_laps": [
-        26
+        24
       ],
       "pred_stops": 2,
       "pred_pit_laps": [
@@ -948,7 +948,7 @@
       "actual_stops": 2,
       "actual_pit_laps": [
         11,
-        29
+        30
       ],
       "pred_stops": 1,
       "pred_pit_laps": [
@@ -963,11 +963,9 @@
     },
     {
       "race": "2024 Qatar Grand Prix",
-      "actual_stops": 3,
+      "actual_stops": 1,
       "actual_pit_laps": [
-        35,
-        36,
-        37
+        35
       ],
       "pred_stops": 1,
       "pred_pit_laps": [
@@ -977,8 +975,8 @@
         "HARD",
         "MEDIUM"
       ],
-      "agree": false,
-      "pred_time_gain_s": 57.6
+      "agree": true,
+      "pred_time_gain_s": 0.9
     },
     {
       "race": "2024 Abu Dhabi Grand Prix",

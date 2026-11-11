@@ -1,10 +1,16 @@
 """Tier 3 driver: backtest the simulator's chosen strategy against what the field
 actually did, per race. Agreement = same stop count AND every pit lap within +/-3 laps
 of the field's median. Writes results/backtest.json and results/backtest_table.md.
+
+The model and the stint caps are fitted on every race, including the one being
+backtested, and by default so are the per-circuit inputs (pit-lane loss, safety-car rate
+and safety-car laps). With --holdout-circuit-inputs those circuit inputs are rebuilt
+without the target race, and results go to results/backtest_holdout.{json,md}.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 from collections import Counter
 
@@ -53,6 +59,12 @@ def agrees(pred_laps, act_laps) -> bool:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--holdout-circuit-inputs", action="store_true",
+                    help="build pit-loss and safety-car inputs without the target race")
+    holdout = ap.parse_args().holdout_circuit_inputs
+    stem = "backtest_holdout" if holdout else "backtest"
     clean = pd.read_parquet(CLEAN_PARQUET)
     try:
         model = load_fitted_model(RESULTS_DIR / "model_full.pkl", CLEAN_PARQUET)
@@ -78,7 +90,11 @@ def main() -> None:
             continue
         act_count, act_laps = act
 
-        env = build_env(circuit, season, total_laps, model, clean, raw, resid, caps)
+        env_raw, env_clean = raw, clean
+        if holdout:
+            env_raw = raw[(raw["season"] != season) | (raw["round"] != rnd)]
+            env_clean = clean[(clean["season"] != season) | (clean["round"] != rnd)]
+        env = build_env(circuit, season, total_laps, model, env_clean, env_raw, resid, caps)
         pit_loss_median[circuit] = round(float(np.median(env.pit_loss)), 1)
         rng = np.random.default_rng(0)
         sims = [simulate_plan(env, pl, N_SIMS, rng) for pl in enumerate_pit_plans(total_laps)]
@@ -120,16 +136,18 @@ def main() -> None:
         "stint_caps": caps,
         "pit_loss_median_s_by_circuit": dict(sorted(pit_loss_median.items(),
                                                      key=lambda kv: kv[1])),
+        "circuit_inputs": "held out (target race excluded)" if holdout
+                          else "in-sample (all races, including the target)",
         "rows": rows,
     }
     RESULTS_DIR.mkdir(exist_ok=True)
-    (RESULTS_DIR / "backtest.json").write_text(json.dumps(out, indent=2))
+    (RESULTS_DIR / f"{stem}.json").write_text(json.dumps(out, indent=2))
 
     cols = ["race", "actual_stops", "actual_pit_laps", "pred_stops", "pred_pit_laps",
             "pred_compounds", "agree", "pred_time_gain_s"]
     md = ["| " + " | ".join(cols) + " |", "| " + " | ".join("---" for _ in cols) + " |"]
     md += ["| " + " | ".join(str(r[c]) for c in cols) + " |" for r in rows]
-    (RESULTS_DIR / "backtest_table.md").write_text("\n".join(md))
+    (RESULTS_DIR / f"{stem}_table.md").write_text("\n".join(md))
 
     off = round(float(np.mean(pit_offsets)), 1) if pit_offsets else None
     print(f"races backtested: {len(rows)}   strict agreement: {rate}%   "
